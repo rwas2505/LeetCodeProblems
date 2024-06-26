@@ -28,6 +28,47 @@ public class Solution {
         Console.WriteLine("firstHeight: " + firstHeight); 
         Console.WriteLine("firstHeightProperty: " + firstHeightProperty); 
 
+        var propertiesArray = new string[height.Length];
+        propertiesArray[0] = firstHeightProperty;
+
+        if (firstHeightProperty == _VALLEY)
+        {
+            for (var i = 1; i < height.Length; i++)
+            {
+                var current = height[i];
+                var next = height[i + 1];
+
+                bool isPeak = CurrentIsPeak(current, next);
+
+                if(!isPeak && current == firstHeight)
+                {
+                    propertiesArray[i] = _VALLEY;
+                    continue;
+                }
+                else if(!isPeak && current > firstHeight)
+                {
+                    propertiesArray[i] = _STEP;
+                    continue;
+                }
+                else
+                {
+                    propertiesArray[i] = _PEAK;
+                    break;
+                }
+            }
+        }
+
+        for(var i = 0; i < propertiesArray.Length; i++)
+        {
+            Console.WriteLine("Property for index " + i + " is: " + propertiesArray[i]);
+        }
+
         return -1;
+    }
+
+
+    private bool CurrentIsPeak(int current, int next)
+    {
+        return next < current;
     }
 }
