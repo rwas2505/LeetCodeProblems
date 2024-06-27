@@ -36,29 +36,7 @@ public class Solution {
 
         if (_currentLimitProperty == _VALLEY) // find next peak
         {
-            for (var i = 1; i < height.Length; i++)
-            {
-                var current = height[i];
-                var next = height[i + 1];
-
-                bool isPeak = CurrentIsPeak(current, next);
-
-                if(!isPeak && current == _currentLimitHeight)
-                {
-                    propertiesArray[i] = _VALLEY;
-                }
-                else if(!isPeak && current > _currentLimitHeight)
-                {
-                    propertiesArray[i] = _STEP;
-                }
-                else
-                {
-                    propertiesArray[i] = _PEAK;
-                    _currentLimitProperty = _PEAK;
-                    _currentLimitIndex = i;
-                    break;
-                }
-            }
+            FindNextPeakFromCurrentValley(height, propertiesArray);
         }
         else if (_currentLimitProperty == _PEAK)
         {
@@ -95,34 +73,35 @@ public class Solution {
     }
 
 
-    // private void FindNextPeakFromCurrentValley(
-    //     int currentValleyIndex, 
-    //     string[] propertiesArray)
-    // {
-    //     for (var i = currentValleyIndex + 1; i < height.Length; i++)
-    //     {
-    //         var current = height[i];
-    //         var next = height[i + 1];
+    private void FindNextPeakFromCurrentValley(
+        int[] height, 
+        string[] propertiesArray)
+    {
+        for (var i = _currentLimitIndex + 1; i < height.Length; i++)
+        {
+            var current = height[i];
+            var next = height[i + 1];
 
-    //         bool isPeak = CurrentIsPeak(current, next);
+            bool isPeak = CurrentIsPeak(current, next);
 
-    //         if(!isPeak && current == _currentLimitHeight)
-    //         {
-    //             propertiesArray[i] = _VALLEY;
-    //         }
-    //         else if(!isPeak && current > _currentLimitHeight)
-    //         {
-    //             propertiesArray[i] = _STEP;
-    //         }
-    //         else
-    //         {
-    //             propertiesArray[i] = _PEAK;
-    //             _currentLimitProperty = _PEAK;
-    //             _currentLimitIndex = i;
-    //             break;
-    //         }
-    //     }
-    // }
+            if(!isPeak && current == _currentLimitHeight)
+            {
+                propertiesArray[i] = _VALLEY;
+            }
+            else if(!isPeak && current > _currentLimitHeight)
+            {
+                propertiesArray[i] = _STEP;
+            }
+            else
+            {
+                propertiesArray[i] = _PEAK;
+                _currentLimitProperty = _PEAK;
+                _currentLimitIndex = i;
+                _currentLimitHeight = current;
+                break;
+            }
+        }
+    }
 
     private bool CurrentIsPeak(int current, int next)
     {
