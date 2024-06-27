@@ -34,7 +34,7 @@ Pseudo Code:
 4. When you reach the last element, 
    - if you are moving from P and searching for V, then it must be V 
    - if you are moving from V and searching for P, then it must be P
-5. After Going from first P to first V or first V to first P, we can do the same thing for the next ascent/descent and simply make the current limit (P or V) the first element used in steps 2 and 3
+5. After Going from first P to first V or first V to first P (instead of first we can call it currentLimit), we can do the same thing for the next ascent/descent and simply make the current limit (P or V) the first element used in steps 2 and 3
 
 ## Assign water levels to each height
 1. At each height:
