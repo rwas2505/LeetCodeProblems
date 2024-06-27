@@ -57,6 +57,29 @@ public class Solution {
                 }
             }
         }
+        else if (firstHeightProperty == _PEAK)
+        {
+            for (var i = 1; i < height.Length; i++)
+            {
+                var current = height[i];
+                var next = height[i + 1];
+                bool isValley = CurrentIsValley(current, next);
+
+                if(!isValley && current == firstHeight)
+                {
+                    propertiesArray[i] = _PEAK;
+                }
+                else if (!isValley && current < firstHeight)
+                {
+                    propertiesArray[i] = _STEP;                    
+                }
+                else
+                {
+                    propertiesArray[i] = _VALLEY;
+                    break;                    
+                }
+            }
+        }
 
         for(var i = 0; i < propertiesArray.Length; i++)
         {
@@ -70,5 +93,10 @@ public class Solution {
     private bool CurrentIsPeak(int current, int next)
     {
         return next < current;
+    }
+
+    private bool CurrentIsValley(int current, int next)
+    {
+        return next > current;
     }
 }

@@ -24,7 +24,7 @@ Pseudo Code:
      - IF IS P THEN assign P
 3. If first element is PEAK
    - Traverse right until the first valley
-   - First valley is the first eight whose right neighbor is GREATER than the current height
+   - First valley is the first height whose right neighbor is GREATER than the current height
    - As you traverse
    - IF NOT V and height == peak THEN assign P
    - IF NOT V AND height < peak height then assign S
