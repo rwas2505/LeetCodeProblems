@@ -6,6 +6,7 @@ public class Solution {
     private int _currentLimitIndex = 0;
     private int _currentLimitHeight = -1;
     private string[] _propertiesArray = null;
+    private int[] _waterLevels = null;
 
     public int Trap(int[] height) {
 
@@ -30,15 +31,12 @@ public class Solution {
             }
         }
 
-        // Console.WriteLine("firstHeight: " + _currentLimitHeight); 
-        // Console.WriteLine("firstHeightProperty: " + _currentLimitProperty); 
-
         _propertiesArray = new string[height.Length];
         _propertiesArray[0] = _currentLimitProperty;
 
         while(_currentLimitIndex < height.Length - 1)
         {
-            if (_currentLimitProperty == _VALLEY) // find next peak
+            if (_currentLimitProperty == _VALLEY)
             {
                 FindNextPeakFromCurrentValley(height);
             }
@@ -53,9 +51,23 @@ public class Solution {
             Console.WriteLine("Property for index " + i + " is: " + _propertiesArray[i]);
         }
 
+        _waterLevels = new int[height.Length];
+        AssignWaterLevels();
         return -1;
     }
 
+
+    private void AssignWaterLevels()
+    {
+        for(var i = 0; i < _waterLevels.Length; i++)
+        {
+            if(_propertiesArray[i] == _PEAK)
+            {
+                _waterLevels[i] = 0;
+                Console.WriteLine("Peak water level 0 for index: " + i);
+            }
+        }
+    }
 
     private void FindNextValleyFromCurrentPeak(int[] height)
     {
@@ -102,9 +114,6 @@ public class Solution {
                     _propertiesArray[i] = _VALLEY;
                     i--;
                 }
-                // Thought:
-                // Traverse backwards now and assign any left neighbors with same height as a valley
-                // since at this point they would have been assigned step
 
                 break;                    
             }
@@ -153,9 +162,6 @@ public class Solution {
                 _currentLimitIndex = i;
                 _currentLimitHeight = current;
 
-                // Thought:
-                // Traverse backwards now and assign any left neighbors with same height as a peak
-                // since at this point they would have been assigned step
                 while(i >= 0 && height[i] == _currentLimitHeight)
                 {
                     _propertiesArray[i] = _PEAK;
@@ -166,9 +172,6 @@ public class Solution {
             }
         }
     }
-
-
-    // TODO: These don't solve for when the valley or peak is a plateau, i.e. next == current
 
     private bool CurrentIsPeak(int current, int next)
     {
