@@ -5,11 +5,13 @@ public class Solution {
     private string _currentLimitProperty = "";
     private int _currentLimitIndex = -1;
     private int _currentLimitHeight = -1;
+    private string[] _propertiesArray = null;
 
     public int Trap(int[] height) {
 
         _currentLimitHeight = height[0];
 
+        // Determine the first elements property Peak or Valley
         for(var i = 1; i < height.Length; i++)
         {
             var currentHeight = height[i];
@@ -31,28 +33,28 @@ public class Solution {
         // Console.WriteLine("firstHeight: " + _currentLimitHeight); 
         // Console.WriteLine("firstHeightProperty: " + _currentLimitProperty); 
 
-        var propertiesArray = new string[height.Length];
-        propertiesArray[0] = _currentLimitProperty;
+        _propertiesArray = new string[height.Length];
+        _propertiesArray[0] = _currentLimitProperty;
 
         if (_currentLimitProperty == _VALLEY) // find next peak
         {
-            FindNextPeakFromCurrentValley(height, propertiesArray);
+            FindNextPeakFromCurrentValley(height);
         }
         else if (_currentLimitProperty == _PEAK)
         {
-            FindNextValleyFromCurrentPeak(height, propertiesArray);
+            FindNextValleyFromCurrentPeak(height);
         }
 
-        for(var i = 0; i < propertiesArray.Length; i++)
+        for(var i = 0; i < _propertiesArray.Length; i++)
         {
-            Console.WriteLine("Property for index " + i + " is: " + propertiesArray[i]);
+            Console.WriteLine("Property for index " + i + " is: " + _propertiesArray[i]);
         }
 
         return -1;
     }
 
 
-    private void FindNextValleyFromCurrentPeak(int[] height, string[] propertiesArray)
+    private void FindNextValleyFromCurrentPeak(int[] height)
     {
         for (var i = _currentLimitIndex + 1; i < height.Length; i++)
         {
@@ -62,15 +64,15 @@ public class Solution {
 
             if(!isValley && current == _currentLimitHeight)
             {
-                propertiesArray[i] = _PEAK;
+                _propertiesArray[i] = _PEAK;
             }
             else if (!isValley && current < _currentLimitHeight)
             {
-                propertiesArray[i] = _STEP;                    
+                _propertiesArray[i] = _STEP;                    
             }
             else
             {
-                propertiesArray[i] = _VALLEY;
+                _propertiesArray[i] = _VALLEY;
                 _currentLimitProperty = _VALLEY;
                 _currentLimitIndex = i;
                 _currentLimitHeight = current;
@@ -80,7 +82,7 @@ public class Solution {
     }
 
 
-    private void FindNextPeakFromCurrentValley(int[] height, string[] propertiesArray)
+    private void FindNextPeakFromCurrentValley(int[] height)
     {
         for (var i = _currentLimitIndex + 1; i < height.Length; i++)
         {
@@ -91,15 +93,15 @@ public class Solution {
 
             if(!isPeak && current == _currentLimitHeight)
             {
-                propertiesArray[i] = _VALLEY;
+                _propertiesArray[i] = _VALLEY;
             }
             else if(!isPeak && current > _currentLimitHeight)
             {
-                propertiesArray[i] = _STEP;
+                _propertiesArray[i] = _STEP;
             }
             else
             {
-                propertiesArray[i] = _PEAK;
+                _propertiesArray[i] = _PEAK;
                 _currentLimitProperty = _PEAK;
                 _currentLimitIndex = i;
                 _currentLimitHeight = current;
