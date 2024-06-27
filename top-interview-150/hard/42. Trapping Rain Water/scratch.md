@@ -17,11 +17,13 @@ Pseudo Code:
    - Peak if first non-matching height is less
 2. If first element is VALLEY
    - Traverse right until the first peak
-   - First peak is the first height whose right neighbor is LESS than the current height
-   - As you traverse
-     - IF NOT P AND height == valley height THEN assign V
-     - IF NOT P AND height > valley height THEN assign S
-     - IF IS P THEN assign P
+     - First peak is the first height whose right neighbor is LESS than the current height
+     - As you traverse
+       - IF NOT P AND height == valley height THEN assign V
+       - IF NOT P AND height > valley height THEN assign S
+       - IF IS P THEN assign P
+   - After hitting the first peak, continue traversing and assigning properties
+     - 
 3. If first element is PEAK
    - Traverse right until the first valley
    - First valley is the first height whose right neighbor is GREATER than the current height
@@ -32,6 +34,7 @@ Pseudo Code:
 4. When you reach the last element, 
    - if you are moving from P and searching for V, then it must be V 
    - if you are moving from V and searching for P, then it must be P
+5. After Going from first P to first V or first V to first P, we can do the same thing for the next ascent/descent and simply make the current limit (P or V) the first element used in steps 2 and 3
 
 ## Assign water levels to each height
 1. At each height:
