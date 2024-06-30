@@ -7,9 +7,10 @@ public class Solution {
     private int _currentLimitHeight = -1;
     private string[] _propertiesArray = null;
     private int[] _waterLevels = null;
+    private int[] _height;
 
     public int Trap(int[] height) {
-
+        _height = height;
         _currentLimitHeight = height[0];
 
         // Determine the first elements property Peak or Valley
@@ -53,6 +54,12 @@ public class Solution {
 
         _waterLevels = new int[height.Length];
         AssignWaterLevels();
+
+        for(var w = 0; w < _waterLevels.Length; w++)
+        {
+            Console.WriteLine("Water Level for index " + w + " is: " + _waterLevels[w]);
+        }
+
         return -1;
     }
 
@@ -64,9 +71,64 @@ public class Solution {
             if(_propertiesArray[i] == _PEAK)
             {
                 _waterLevels[i] = 0;
-                Console.WriteLine("Peak water level 0 for index: " + i);
+            }
+            else
+            {
+                // Ensure there is a left and right peak from this location
+
+                var leftPeakHeight = GetLeftPeakHeight(i);
+                var rightPeakHeight = GetRightPeakHeight(i);
+                
+                var canHoldWater = leftPeakHeight > -1 && rightPeakHeight > -1;
+
+                // If not, it can't hold water so assign zero
+                if(!canHoldWater)
+                {
+                    _waterLevels[i] = 0;
+                }
+                else
+                {
+                    // If yes, take the lower of the two peaks as the peak value
+                    var ceiling = leftPeakHeight <= rightPeakHeight
+                        ? leftPeakHeight
+                        : rightPeakHeight;
+
+                    var waterLevel = ceiling - _height[i];
+
+                    _waterLevels[i] = waterLevel;
+                }
             }
         }
+    }
+
+    private int GetLeftPeakHeight(int currentIndex)
+    {
+        if(currentIndex == 0) return -1;
+
+        for(var i = currentIndex - 1; i >= 0; i--)
+        {
+            if(_propertiesArray[i] == _PEAK)
+            {
+                return _height[i];
+            }
+        }
+
+        return -1;
+    }
+
+    private int GetRightPeakHeight(int currentIndex)
+    {
+        if(currentIndex == _propertiesArray.Length - 1) return -1;
+
+        for(var i = currentIndex + 1; i <= _propertiesArray.Length - 1; i++)
+        {
+            if(_propertiesArray[i] == _PEAK)
+            {
+                return _height[i];
+            }
+        }
+
+        return -1;
     }
 
     private void FindNextValleyFromCurrentPeak(int[] height)
